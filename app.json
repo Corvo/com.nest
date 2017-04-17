@@ -486,7 +486,7 @@
         ]
       },
       {
-        "id": "hvac_mode_toggle",
+        "id": "hvac_mode_eco_toggle",
         "title": {
           "en": "Toggle HVAC mode",
           "nl": "HVAC stand omschakelen"
