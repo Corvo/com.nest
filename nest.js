@@ -483,60 +483,22 @@ class NestThermostat extends NestDevice {
 			// Authenticate
 			this.nest_account.authenticate().then(() => {
 
-				// Handle cases where temperature could not be set
-				if (this.is_using_emergency_heat) {
-					return reject(__('error.emergency_heat', {
-						temp: temperature,
+				// Handle cases where mode is unsupported
+				if (mode === 'heat-cool' && !this.can_cool && !this.can_heat) {
+					return reject(__('error.mode_heat-cool_unsupported', {
 						name: this.name_long,
 					}));
-				}
-				if (this.structure.away !== 'home') {
-					return reject(__('error.structure_is_away', {
-						temp: temperature,
+				} else if (mode === 'cool' && !this.can_cool) {
+					return reject(__('error.mode_cool_unsupported', {
+						name: this.name_long,
+					}));
+				} else if (mode === 'heat' && !this.can_heat) {
+					return reject(__('error.mode_heat_unsupported', {
 						name: this.name_long,
 					}));
 				}
 
 				// All clear to change the HVAC mode
-				this.nest_account.db.child(`devices/thermostats/${this.device_id}/hvac_mode`).set(mode, error => {
-					if (error) {
-						return reject(__('error.unknown', {
-							hvac_mode: mode,
-							name: this.name_long,
-							error,
-						}));
-					}
-					return resolve(mode);
-				});
-			}).catch(err => console.error(err));
-		});
-	}
-
-	/**
-	 * Toggle between Eco and the previously active HVAC mode of this Nest Thermostat.
-	 */
-	toggleHvacModeEco() {
-		return new Promise((resolve, reject) => {
-
-			// Authenticate
-			this.nest_account.authenticate().then(() => {
-
-				// Handle cases where temperature could not be set
-				if (this.is_using_emergency_heat) {
-					return reject(__('error.emergency_heat', {
-						temp: temperature,
-						name: this.name_long,
-					}));
-				}
-				if (this.structure.away !== 'home') {
-					return reject(__('error.structure_is_away', {
-						temp: temperature,
-						name: this.name_long,
-					}));
-				}
-
-				// All clear to toggle between Eco and the previously active HVAC mode
-        		var mode = this.hvac_mode === 'eco' ? this.previous_hvac_mode : 'eco';
 				this.nest_account.db.child(`devices/thermostats/${this.device_id}/hvac_mode`).set(mode, error => {
 					if (error) {
 						return reject(__('error.unknown', {

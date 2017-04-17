@@ -311,7 +311,7 @@ function registerFlowListeners() {
 	});
 
     // Set hvac mode
-    Homey.manager('flow').on('action.hvac_mode_set', (callback, args, state) => {
+    Homey.manager('flow').on('action.hvac_mode', (callback, args, state) => {
 
         // Check for proper incoming arguments
         if (args && args.hasOwnProperty('mode') && args.hasOwnProperty('deviceData')) {
@@ -323,28 +323,6 @@ function registerFlowListeners() {
 				&& thermostat.hasOwnProperty('client')) {
 				thermostat.client.setHvacMode(args.mode)
 					.then(() => callback(null, args.mode))
-					.catch(err => {
-						console.error(err);
-						Homey.app.registerLogItem({ msg: err, timestamp: new Date() });
-						return callback(err);
-					});
-			} else return callback('No Nest client found');
-    	} else callback('invalid arguments and or state provided');
-	});
-
-    // Toggle hvac mode
-    Homey.manager('flow').on('action.hvac_mode_eco_toggle', (callback, args, state) => {
-
-        // Check for proper incoming arguments
-        if (args && args.hasOwnProperty('deviceData')) {
-
-        	// Get device
-        	const thermostat = getDevice(args.deviceData);
-
-			if (thermostat
-				&& thermostat.hasOwnProperty('client')) {
-				thermostat.client.toggleHvacModeEco()
-					.then(() => callback(null, 'eco_toggle'))
 					.catch(err => {
 						console.error(err);
 						Homey.app.registerLogItem({ msg: err, timestamp: new Date() });
