@@ -12,7 +12,16 @@
   },
   "category": "climate",
   "author": {
-    "name": "Athom B.V."
+    "name": "Athom B.V.",
+    "email": "info@athom.com"
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "François Raeven",
+        "email": "f.raeven@gmail.com"
+      }
+    ]
   },
   "images": {
     "large": "assets/images/large.png",
