@@ -37,6 +37,7 @@
 		"hvac_mode_heat-cool_unsupported": "(__name__) HVAC verwarm en koel stand is niet beschikbaar",
 		"hvac_mode_cool_unsupported": "(__name__) HVAC koel stand is niet beschikbaar",
 		"hvac_mode_heat_unsupported": "(__name__) HVAC verwarm stand is niet beschikbaar",
+		"hvac_mode_eco_unsupported": "(__name__) HVAC eco stand is niet beschikbaar",
 		"unknown": "(__name__) Kon doeltemperatuur niet aanpassen naar __temp__, error: __error__"
 	},
 	"pair": {

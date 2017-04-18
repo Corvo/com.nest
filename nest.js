@@ -484,7 +484,7 @@ class NestThermostat extends NestDevice {
 			this.nest_account.authenticate().then(() => {
 
 				// Handle cases where mode is unsupported
-				if (mode === 'heat-cool' && !this.can_cool && !this.can_heat) {
+				if (mode === 'heat-cool' && !(this.can_cool && this.can_heat)) {
 					return reject(__('error.mode_heat-cool_unsupported', {
 						name: this.name_long,
 					}));
@@ -494,6 +494,10 @@ class NestThermostat extends NestDevice {
 					}));
 				} else if (mode === 'heat' && !this.can_heat) {
 					return reject(__('error.mode_heat_unsupported', {
+						name: this.name_long,
+					}));
+				} else if (mode === 'eco' && (!semver.gte(this.software_version, '5.6.0') || !(this.can_cool || this.can_heat))) {
+					return reject(__('error.mode_eco_unsupported', {
 						name: this.name_long,
 					}));
 				}
